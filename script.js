@@ -79,3 +79,17 @@ window.addEventListener('scroll', updateHeader, { passive: true });
 updateHeader();
 document.querySelector('[data-year]').textContent = new Date().getFullYear();
 
+document.querySelector('[data-mailto-form]')?.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const name = form.elements.name.value.trim();
+  const phone = form.elements.phone.value.trim() || 'No indicado';
+  const email = form.elements.email.value.trim();
+  const message = form.elements.message.value.trim();
+  const updates = form.elements.updates.checked ? 'Sí' : 'No';
+  const subject = encodeURIComponent(`Consulta web · ${name}`);
+  const body = encodeURIComponent(`Nombre: ${name}\nTeléfono: ${phone}\nCorreo: ${email}\nDesea recibir información: ${updates}\n\nMensaje:\n${message}`);
+  document.querySelector('[data-form-note]').textContent = 'Se abrirá tu aplicación de correo para enviar el mensaje.';
+  window.location.href = `mailto:info@kuanum.com?subject=${subject}&body=${body}`;
+});
+
